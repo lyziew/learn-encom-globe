@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         },
         shell: {
             buildgrid: {
-                command: "bin/buildgrid -r 500 -o grid.js -m resources/equirectangle_projection.png"
+                command: "node bin/buildgrid -r 500 -o grid.js -m resources/equirectangle_projection.png"
             }
         },
         uglify: {

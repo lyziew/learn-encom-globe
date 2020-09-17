@@ -91,8 +91,8 @@ var Pin = function(lat, lon, text, altitude, scene, smokeProvider, _opts){
     });
 
    this.labelSprite = new THREE.Sprite(labelMaterial);
-   this.labelSprite.position = {x: point.x*altitude*1.1, y: point.y*altitude + (point.y < 0 ? -15 : 30), z: point.z*altitude*1.1};
-   this.labelSprite.scale.set(labelCanvas.width, labelCanvas.height);
+   this.labelSprite.position.set(point.x*altitude*1.1, point.y*altitude + (point.y < 0 ? -15 : 30), point.z*altitude*1.1);
+   this.labelSprite.scale.set(labelCanvas.width, labelCanvas.height,0);
 
    /* the top */
 
@@ -100,7 +100,7 @@ var Pin = function(lat, lon, text, altitude, scene, smokeProvider, _opts){
    topTexture.needsUpdate = true;
    topMaterial = new THREE.SpriteMaterial({map: topTexture, depthTest: true, fog: true, opacity: 0});
    this.topSprite = new THREE.Sprite(topMaterial);
-   this.topSprite.scale.set(20, 20);
+   this.topSprite.scale.set(20, 20,0);
    this.topSprite.position.set(point.x * altitude, point.y * altitude, point.z * altitude);
 
    /* the smoke */
@@ -168,7 +168,7 @@ Pin.prototype.changeAltitude = function(altitude){
            _this.topSprite.position.set(point.x * this.altitude, point.y * this.altitude, point.z * this.altitude);
        }
        if(_this.labelVisible){
-           _this.labelSprite.position = {x: point.x*this.altitude*1.1, y: point.y*this.altitude + (point.y < 0 ? -15 : 30), z: point.z*this.altitude*1.1};
+           _this.labelSprite.position.set(point.x*this.altitude*1.1, point.y*this.altitude + (point.y < 0 ? -15 : 30), point.z*this.altitude*1.1);
        }
        _this.lineGeometry.vertices[1].x = point.x * this.altitude;
        _this.lineGeometry.vertices[1].y = point.y * this.altitude;

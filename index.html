@@ -7,15 +7,15 @@
         <title>Encom Globe</title>
 
         <!-- these are just for the demo page / options -->
-        <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+        <script src="include/jquery-2.0.3.min.js"></script>
+        <script src="include/jquery-ui.min.js"></script>
         <script src="include/spectrum.js"></script>
         <link href="include/spectrum.css" rel="stylesheet" type="text/css" />
         <script src="include/jquery.switchButton.js"></script>
         <link href="include/jquery.switchButton.css" rel="stylesheet" type="text/css" />
         <script src="include/simple-slider.js"></script>
         <script src="include/Detector.js"></script>
-
+        <script src="include/webfont.js"></script>
         <link href="styles.css" rel="stylesheet" type="text/css" />
 
         <!-- required for the application -->
@@ -37,9 +37,10 @@
                 globeCount++;
                 $("#globe canvas").remove();
                 if($("#globe-dd:checked").length){
-                    newData = data.slice();
+                    //newData = data.slice();
                 }
 
+                // 设置绑定值
                 globe = new ENCOM.Globe(window.innerWidth, window.innerHeight, {
                     font: "Inconsolata",
                     data: newData, // copy the data array
@@ -92,7 +93,7 @@
             }
 
             function start(){
-                
+
                 if(globeCount == 1){ // only do this for the first globe that's created. very messy
                     $("#apply-button").click(function(e){
                         globe.destroy(function(){
@@ -126,49 +127,49 @@
                     animate();
 
                     /* add pins at random locations */
-                    setInterval(function(){
-                        if(!globe || !$("#globe-dd:checked").length){
-                            return;
-                        }
-                        
-                        var lat = Math.random() * 180 - 90,
-                           lon = Math.random() * 360 - 180,
-                           name = "Test " + Math.floor(Math.random() * 100);
-
-                        globe.addPin(lat,lon, name);
-
-                    }, 5000);
+                    // setInterval(function(){
+                    //     if(!globe || !$("#globe-dd:checked").length){
+                    //         return;
+                    //     }
+                    //
+                    //     var lat = Math.random() * 180 - 90,
+                    //        lon = Math.random() * 360 - 180,
+                    //        name = "Test " + Math.floor(Math.random() * 100);
+                    //
+                    //     globe.addPin(lat,lon, name);
+                    //
+                    // }, 5000);
                 }
-                
+
                 /* add 6 satellites in random locations */
 
                 if($("#globe-dd:checked").length){
-                    setTimeout(function(){
-                        var constellation = [];
-                        var opts = {
-                            coreColor: $("#satellite-color").val(),
-                            numWaves: parseInt($("#globe-si").val())
-                        };
-                        var alt =  parseFloat($("#globe-sa").val());
-
-                        for(var i = 0; i< 2; i++){
-                            for(var j = 0; j< 3; j++){
-                                 constellation.push({
-                                    lat: 50 * i - 30 + 15 * Math.random(), 
-                                     lon: 120 * j - 120 + 30 * i, 
-                                     altitude: alt
-                                     });
-                            }
-                        }
-
-                        globe.addConstellation(constellation, opts);
-                    }, 4000);
+                    // setTimeout(function(){
+                    //     var constellation = [];
+                    //     var opts = {
+                    //         coreColor: $("#satellite-color").val(),
+                    //         numWaves: parseInt($("#globe-si").val())
+                    //     };
+                    //     var alt =  parseFloat($("#globe-sa").val());
+                    //
+                    //     for(var i = 0; i< 2; i++){
+                    //         for(var j = 0; j< 3; j++){
+                    //              constellation.push({
+                    //                 lat: 50 * i - 30 + 15 * Math.random(),
+                    //                  lon: 120 * j - 120 + 30 * i,
+                    //                  altitude: alt
+                    //                  });
+                    //         }
+                    //     }
+                    //
+                    //     globe.addConstellation(constellation, opts);
+                    // }, 4000);
 
                     /* add the connected points that are in the movie */
-                    setTimeout(function(){
-                        globe.addMarker(49.25, -123.1, "Vancouver");
-                        globe.addMarker(35.6895, 129.69171, "Tokyo", true);
-                    }, 2000);
+                    // setTimeout(function(){
+                    //     globe.addMarker(49.25, -123.1, "Vancouver");
+                    //     globe.addMarker(35.6895, 129.69171, "Tokyo", true);
+                    // }, 2000);
                 }
 
             }
@@ -236,7 +237,7 @@
                             globe.setBaseColor(color.toHexString());
                         }
                     }
-                }); 
+                });
 
                 $("#pin-color").spectrum({
                     color: "#8FD8D8",
@@ -247,7 +248,7 @@
                             globe.setPinColor(color.toHexString());
                         }
                     }
-                }); 
+                });
 
                 $("#marker-color").spectrum({
                     color: "#ffcc00",
@@ -258,7 +259,7 @@
                             globe.setMarkerColor(color.toHexString());
                         }
                     }
-                }); 
+                });
 
                 $("#satellite-color").spectrum({
                     color: "#ff0000",
@@ -272,7 +273,7 @@
                         }
                     }
 
-                }); 
+                });
 
                 $("[data-slider]")
                 .each(function () {
@@ -341,13 +342,8 @@
 
                 var docHeight = $(document).height();
 
-                WebFontConfig = {
-                    google: {
-                          families: ['Inconsolata']
-                    },
-                    active: function(){
-                        /* don't start the globe until the font has been loaded */
-                        $("#options").css({
+               /* don't start the globe until the font has been loaded */
+               $("#options").css({
                             "visibility": "visible",
                             "top": docHeight/2,
                             "bottom": docHeight/2
@@ -376,21 +372,8 @@
                                 createGlobe();
 
                             });
-                    }
-                };
 
                 /* Webgl stuff */
-
-
-                /* web font stuff*/
-                var wf = document.createElement('script');
-                wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-                    '://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js';
-                wf.type = 'text/javascript';
-                wf.async = 'true';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(wf, s);
-
             });
 
         </script>
@@ -445,7 +428,6 @@
                         </label>
                         <input type="text" id="globe-spr" data-slider="true" data-slider-range="1, 120" data-slider-step="1" data-slider-highlight="true" value="28"/>
 
-                        <!--
                         <label>
                             Points per Degree
                         </label>
@@ -455,7 +437,6 @@
                             Point Size
                         </label>
                         <input type="text" id="globe-ps" data-slider="true" data-slider-range=".1,1.0" data-slider-step=".1" data-slider-highlight="true" value=".6"/>
-                        -->
 
                         <label>
                             Intro Duration (ms)
@@ -492,7 +473,7 @@
 
                     <div id="apply-button" class="button">Reload</div>
 
-                    
+
                 </div>
             </div>
             <div class="header" id="header-top">
